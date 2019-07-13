@@ -2,6 +2,7 @@ package com.tan.forfun.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import com.tan.forfun.model.TreeModel;
 import com.tan.forfun.service.TestService;
 import com.tan.forfun.utils.TreeUtils;
 
+import javax.annotation.Resource;
+
 @Service
 public class TestServiceImpl implements TestService {
 	
-	@Autowired
+	@Resource
 	TestDao testDao;
 
 	@Override
@@ -31,14 +34,12 @@ public class TestServiceImpl implements TestService {
 
 	private void calcTree(TreeModel treeModel) {
 		if(null != treeModel) {
-			List<TreeModel> arrayList = new ArrayList<>();
 			List<TreeModel> children = treeModel.getChildren();
 			if(!CollectionUtils.isEmpty(children)) {
 				for (TreeModel treeModel2 : children) {
 					calcTree(treeModel2);
-					arrayList.add(treeModel2);
 				}
-				int intValue = arrayList.stream().map(map -> {
+				int intValue = children.stream().map(map -> {
 					if(!StringUtils.isEmpty(map.getMoney())) {
 						return Integer.parseInt(map.getMoney());
 					} return 0;

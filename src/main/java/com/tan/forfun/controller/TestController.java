@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tan.forfun.model.TestVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tan.forfun.model.ResponseObject;
 import com.tan.forfun.model.TreeModel;
@@ -18,13 +18,11 @@ public class TestController {
 	@Autowired
 	TestService testService;
 	
-	@RequestMapping("test")
-	public ResponseObject<Object> index () {
+	@RequestMapping(value = "test",method = RequestMethod.GET)
+	public ResponseObject<Object> index (@RequestBody TestVo params ) {
 		ResponseObject<Object> responseObject = new ResponseObject<>();
-		responseObject.setMessage("6666");
-		Map<String, String> hashMap = new HashMap<String ,String >();
-		hashMap.put("1", "1");
-		responseObject.setData(hashMap);
+		responseObject.setMessage(params.getMessage());
+		responseObject.setData(params.getIds());
 		return responseObject;
 	}
 	@RequestMapping("treesGet")
